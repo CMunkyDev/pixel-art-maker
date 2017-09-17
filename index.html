@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pixel Art Creator</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="assets/styles/main.css">
+    <script defer src="assets/scripts/main.js"></script>
+  </head>
+  <body>
+    <div class="container editor">
+      <div class="row">
+        <div class="col-12 edit-surround">
+          <div class="row">
+            <div id="pixel-grid" class="col-12 editor-grid">
+              <div class="grid-square"></div>
+              <div class="grid-square"></div>
+              <div class="grid-square"></div>
+              <div class="grid-square"></div>
+              <div class="grid-square"></div>
+              <div class="grid-square"></div>
+              <div class="grid-square"></div>
+              <div class="grid-square"></div>
+              <div class="grid-square"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div  id="color-palette" class="col-8 color-palette">
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+              <div class="swatch"></div>
+            </div>
+            <div class="col-4 tools">
+              <div class="row">
+                <div class="col color-tool">
+                  <span>Current Color:</span>
+                  <div class="current-color"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col density-tool">
+                  <span>Pixel Density (PPI):</span>
+                  <select name="pixel-density">
+                    <option value="4">4</option>
+                    <option value="8" selected>8</option>
+                    <option value="16">16</option>
+                    <option value="24">24</option>
+                    <option value="32">32</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
