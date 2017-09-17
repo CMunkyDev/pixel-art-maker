@@ -24,7 +24,7 @@ body {
   overflow: hidden;
   height: 100%;
   width: 100%;
-  background: pink;
+  background: rgba(0, 0, 0, 0.0);
 }
 
 .grid-row {
@@ -35,7 +35,7 @@ body {
 .grid-square {
   box-sizing: border-box;
   background: #fff;
-  border: 1px solid #ccc;
+  outline: 1px solid #ccc;
 }
 
 .color-palette {
