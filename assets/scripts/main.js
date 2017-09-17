@@ -1,12 +1,13 @@
 //96 px = 1 inch
+let pOR;
 var pixelDensity = document.getElementsByName("pixel-density")[0];
 var squaresPerInch = Number(pixelDensity.value);
 var pixelGrid = document.getElementById("pixel-grid");
 var colorPalette = document.getElementById("color-palette");
 var wholeEditor = document.getElementsByClassName("edit-surround")[0];
 var defaultColor = "#fff";
-var defaultOutlineColor = "ccc";
-var currentlySelectedColor = "#000";
+var defaultOutlineColor = "#ccc";
+var currentlySelectedColor = "pink";
 var keepColoring = false;
 var keepDeleting = false;
 
@@ -38,11 +39,13 @@ function drawDelete(event) {
     if (event.target.classList[0] === "grid-square") {
       event.target.style.backgroundColor = currentlySelectedColor;
       event.target.style.outlineColor = currentlySelectedColor;
+      storeColor(event);
     }
   } else if (keepDeleting) {
     if (event.target.classList[0] === "grid-square") {
       event.target.style.backgroundColor = defaultColor;
       event.target.style.outlineColor = defaultOutlineColor;
+      storeColor(event);
     }
   }
 }
@@ -64,7 +67,8 @@ function initGrid () {
     grid.squareRowCol.push([]);
     for (let j = 0; j < numCols; j++) {
       grid.squareRowCol[i].push({
-        color : defaultColor
+        color : defaultColor,
+        outlineColor : defaultOutlineColor
       })
     }
   }
@@ -72,7 +76,6 @@ function initGrid () {
 initGrid();
 
 window.addEventListener('resize', printOnResize);
-//pixelDensity.addEventListener('onchange', changeDensity);
 
 function drawGrid () {
   pixelGrid.innerHTML = "";
@@ -91,22 +94,31 @@ function drawGrid () {
   for (let r = 0; r <= numRows; r++) {
     innerRow = "";
     for (let c = 0; c <= numCols; c++) {
-      innerRow += `<div id=\"${r}_${c}\" class=\"grid-square ${wholeGrid[r][c].color}\" style=\"width: ${sideLength}px; height: ${sideLength}px; background-color: ${defaultColor}; outline-color: ${defaultOutlineColor}\"></div>`
+      innerRow += `<div id=\"${r}_${c}\" class=\"grid-square ${wholeGrid[r][c].color}\" style=\"width: ${sideLength}px; height: ${sideLength}px; background-color: ${wholeGrid[r][c].color}; outline-color: ${wholeGrid[r][c].outlineColor}\"></div>`
     }
     pixelGrid.innerHTML += `<div id=\"grid-row-${r}\" class=\"grid-row\">${innerRow}</div>`;
   }
 }
 drawGrid();
 
+function storeColor (event) {
+  let rowAndColumn = event.target.id.split("_");
+  let row = Number(rowAndColumn[0]);
+  let column = Number(rowAndColumn[1]);
+  let square = grid.squareRowCol[row][column];
+  console.log(square);
+  square.color = event.target.style.backgroundColor;
+  square.outlineColor = event.target.style.outlineColor;
+}
+
 function printOnResize () {
   setGridHeight();
-  let poot = setTimeout(printGrid, 10);
+  pOR = setTimeout(printGrid, 10);
 }
 
 function printGrid () {
   setGridHeight();
   drawGrid();
-  //drawGrid(squaresPerInch);
 }
 
 function changeDensity () {
