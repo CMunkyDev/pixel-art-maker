@@ -18,8 +18,10 @@ function setGridHeight () {
 }
 setGridHeight();
 
+/* If user changes pixel/squares per inch, redraw grid */
 pixelDensity.addEventListener('change', drawGrid);
 
+/************* Drawing Events ************/
 pixelGrid.addEventListener('mousedown', function (event) {
   if (event.shiftKey) {
     keepDeleting = true;
@@ -49,11 +51,19 @@ function drawDelete(event) {
     }
   }
 }
+/***** End Drawing Events *****/
+
+/* Color Picking Events */
+colorPalette.addEventListener('click', function (event) {
+  if (event.target.classList[0] = "swatch") {
+    currentlySelectedColor = event.target.style.backgroundColor;
+  }
+})
 
 var grid = {
   squareRowCol : [],
-  squareColor : "#fff",
-  borderColor : "#ccc"
+  squareColor : "#ffffff",
+  borderColor : "#cccccc"
 }
 
 function initGrid () {
