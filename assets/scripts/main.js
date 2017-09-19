@@ -1,5 +1,4 @@
 //96 px = 1 inch
-let pOR;
 var pixelDensity = document.getElementsByName("pixel-density")[0];
 var squaresPerInch = Number(pixelDensity.value);
 var pixelGrid = document.getElementById("pixel-grid");
@@ -10,6 +9,7 @@ var defaultOutlineColor = "#ccc";
 var currentlySelectedColor = "pink";
 var keepColoring = false;
 var keepDeleting = false;
+var drawTimeout;
 
 function setGridHeight () {
   var editorHeight = wholeEditor.clientHeight;
@@ -61,9 +61,7 @@ colorPalette.addEventListener('click', function (event) {
 })
 
 var grid = {
-  squareRowCol : [],
-  squareColor : "#ffffff",
-  borderColor : "#cccccc"
+  squareRowCol : []
 }
 
 function initGrid () {
@@ -85,7 +83,10 @@ function initGrid () {
 }
 initGrid();
 
-window.addEventListener('resize', printOnResize);
+window.addEventListener('resize', function () {
+  clearTimeout(drawTimeout);
+  drawTimeout = setTimeout(printOnResize, 0);
+});
 
 function drawGrid () {
   pixelGrid.innerHTML = "";
@@ -123,7 +124,7 @@ function storeColor (event) {
 
 function printOnResize () {
   setGridHeight();
-  pOR = setTimeout(printGrid, 10);
+  printGrid();
 }
 
 function printGrid () {
