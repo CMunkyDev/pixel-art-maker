@@ -9,7 +9,11 @@ var defaultOutlineColor = "#ccc";
 var currentlySelectedColor = "pink";
 var keepColoring = false;
 var keepDeleting = false;
+var squaresX;
+var squaresY;
 var drawTimeout;
+var colorToFillIn = '#fff';
+var filling = false;
 
 function setGridHeight () {
   var editorHeight = wholeEditor.clientHeight;
@@ -21,14 +25,26 @@ setGridHeight();
 /* If user changes pixel/squares per inch, redraw grid */
 pixelDensity.addEventListener('change', drawGrid);
 
+// pixelGrid.addEventListener('keypress', function (event) {
+//   filling = !filling;
+// })
 /************* Drawing Events ************/
 pixelGrid.addEventListener('mousedown', function (event) {
-  if (event.shiftKey) {
-    keepDeleting = true;
-  } else {
-    keepColoring = true;
-  }
-  drawDelete(event);
+  // if (filling & event.target.classList[0] === "grid-square") {
+  //   let rowAndColumn = event.target.id.split("_");
+  //   colorToFillIn = event.target.backgroundColor;
+  //   let row = Number(rowAndColumn[0]);
+  //   let column = Number(rowAndColumn[1]);
+  //   recursiveFill(row, column);
+  //   drawGrid();
+  // } else {
+    if (event.shiftKey) {
+      keepDeleting = true;
+    } else {
+      keepColoring = true;
+    }
+    drawDelete(event);
+  //}
 })
 pixelGrid.addEventListener('mouseup', function (event) {
   keepColoring = false;
@@ -76,7 +92,7 @@ function initGrid () {
     for (let j = 0; j < numCols; j++) {
       grid.squareRowCol[i].push({
         color : defaultColor,
-        outlineColor : defaultOutlineColor
+        outlineColor : defaultOutlineColor,
       })
     }
   }
@@ -97,6 +113,8 @@ function drawGrid () {
   let sideLength = 96 / squaresPerInch;
   let numRows = Math.floor(pixelGrid.clientHeight/ sideLength) - 1;
   let numCols = Math.floor(pixelGrid.clientWidth / sideLength) - 1;
+  squaresY = numRows;
+  squaresX = numCols;
   /*
   <div id="row_#" class=gridrow>
     <div id="row_col"></div>...
@@ -117,9 +135,56 @@ function storeColor (event) {
   let row = Number(rowAndColumn[0]);
   let column = Number(rowAndColumn[1]);
   let square = grid.squareRowCol[row][column];
+  console.log(`${row}, ${column}`);
   console.log(square);
   square.color = event.target.style.backgroundColor;
   square.outlineColor = event.target.style.outlineColor;
+}
+
+
+
+function recursiveFill (r, c) {
+  let shortGrid = grid.squareRowCol;
+  let square = grid.squareRowCol[r][c];
+  let rD = r - 1;
+  let rU = r + 1;
+  let cD = c - 1;
+  let cU = c + 1;
+  square.color = currentlySelectedColor;
+  square.outlineColor = currentlySelectedColor;
+  if (r > 0 && r < squaresY) {
+    if (shortGrid[rU][c].color === colorToFillIn) {
+      recursiveFill(rU, c);
+    }
+    if (shortGrid[rD][c].color === colorToFillIn) {
+      recursiveFill(rD, c);
+    }
+  } else if (r === 0) {
+    if (shortGrid[rU][c].color === colorToFillIn) {
+      recursiveFill(rU, c);
+    }
+  } else if (r === squaresY) {
+    if (shortGrid[rD][c].color === colorToFillIn) {
+      recursiveFill(rD, c);
+    }
+  }
+  if (c > 0 && c < squaresX) {
+    if (shortGrid[r][cU].color === colorToFillIn) {
+      recursiveFill(r, cU);
+    }
+    if (shortGrid[r][cD].color === colorToFillIn) {
+      recursiveFill(r, cD);
+    }
+  } else if (c === 0) {
+    if (shortGrid[r][cU].color === colorToFillIn) {
+      recursiveFill(r, cU);
+    }
+  } else if (c === squaresX) {
+    if (shortGrid[r][cU].color === colorToFillIn) {
+      recursiveFill(r, cD);
+    }
+  }
+  drawGrid();
 }
 
 function printOnResize () {
