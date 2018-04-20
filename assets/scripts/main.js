@@ -4,15 +4,15 @@ var squaresPerInch = Number(pixelDensity.value);
 var pixelGrid = document.getElementById("pixel-grid");
 var colorPalette = document.getElementById("color-palette");
 var wholeEditor = document.getElementsByClassName("edit-surround")[0];
-var defaultColor = "#fff";
-var defaultOutlineColor = "#ccc";
+var defaultColor = "#ffffff";
+var defaultOutlineColor = "#cccccc";
 var currentlySelectedColor = "pink";
 var keepColoring = false;
 var keepDeleting = false;
 var squaresX;
 var squaresY;
 var drawTimeout;
-var colorToFillIn = '#fff';
+var colorToFillIn = '#ffffff';
 var filling = false;
 
 function setGridHeight () {
@@ -142,7 +142,7 @@ function storeColor (event) {
 }
 
 
-
+/* If you will always be working with a grid that is as large as it can get, you can -probably- remove the 'else if's, add = to the > and < signs in the outer if statements, and add 'shortGrid[x][y] !== undefined && ' before the rest of the inner if statements */
 function recursiveFill (r, c) {
   let shortGrid = grid.squareRowCol;
   let square = grid.squareRowCol[r][c];
@@ -184,6 +184,10 @@ function recursiveFill (r, c) {
       recursiveFill(r, cD);
     }
   }
+}
+
+function fillThatB (r, c) {
+  recursiveFill(r,c);
   drawGrid();
 }
 
